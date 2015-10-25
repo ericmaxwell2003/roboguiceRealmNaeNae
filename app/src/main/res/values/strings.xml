@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">CommentsListApp</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_add">Add</string>
+    <string name="action_remove">Remove</string>
+
+    <string name="comment_watch_me">Watch me</string>
+    <string name="comment_whip">Whip</string>
+    <string name="comment_nea">Nea</string>
+    <string name="comment_bop">Bop</string>
+</resources>
