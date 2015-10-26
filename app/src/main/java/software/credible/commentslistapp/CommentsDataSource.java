@@ -7,6 +7,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CommentsDataSource {
@@ -48,6 +49,19 @@ public class CommentsDataSource {
 		System.out.println("Comment deleted with id: " + id);
 		database.delete(MySQLiteHelper.TABLE_COMMENTS, MySQLiteHelper.COLUMN_ID
 				+ " = " + id, null);
+	}
+
+	public Comment getCommentByValue(String commentText) {
+		Comment comment = null;
+		Cursor cursor = database.query(MySQLiteHelper.TABLE_COMMENTS,
+				allColumns, MySQLiteHelper.COLUMN_COMMENT + " = '" + commentText + "'" , null, null, null, null);
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			comment = cursorToComment(cursor);
+		}
+		// Make sure to close the cursor
+		cursor.close();
+		return comment;
 	}
 
 	public List<Comment> getAllComments() {
