@@ -23,18 +23,19 @@ public class CommentsCrudTest extends ApplicationTestCase<Application> {
     @Before
     @Override
     public void setUp() throws Exception {
-        super.setUp();
+        createApplication();
         datasource = new CommentsDataSource(getContext());
         datasource.open();
-        for(Comment c : datasource.getAllComments()) {
-            datasource.deleteComment(c);
-        }
+        datasource.deleteAllComments();
+        super.setUp();
     }
 
     @After
     @Override
     public void tearDown() throws Exception {
+        datasource.deleteAllComments();
         datasource.close();
+        super.terminateApplication();
         super.tearDown();
     }
 

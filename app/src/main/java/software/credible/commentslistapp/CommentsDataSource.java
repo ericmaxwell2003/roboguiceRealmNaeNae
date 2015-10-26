@@ -48,15 +48,19 @@ public class CommentsDataSource {
 		long id = comment.getId();
 		System.out.println("Comment deleted with id: " + id);
 		database.delete(MySQLiteHelper.TABLE_COMMENTS, MySQLiteHelper.COLUMN_ID
-				+ " = " + id, null);
+                + " = " + id, null);
 	}
+
+    public void deleteAllComments() {
+       database.delete(MySQLiteHelper.TABLE_COMMENTS, null, null);
+    }
 
 	public Comment getCommentByValue(String commentText) {
 		Comment comment = null;
 		Cursor cursor = database.query(MySQLiteHelper.TABLE_COMMENTS,
 				allColumns, MySQLiteHelper.COLUMN_COMMENT + " = '" + commentText + "'" , null, null, null, null);
 		cursor.moveToFirst();
-		while (!cursor.isAfterLast()) {
+		if (!cursor.isAfterLast()) {
 			comment = cursorToComment(cursor);
 		}
 		// Make sure to close the cursor
