@@ -45,15 +45,19 @@ public class UiEspressoTest extends ActivityInstrumentationTestCase2<CommentsAct
 
     public void testPopperSequence() {
 
+
         // For each nea nea word
-        for(int resourceId : properNeaNeaSequence) {
+        for(int i = 0; i < properNeaNeaSequence.length; i++) {
+
+            int resourceId = properNeaNeaSequence[i];
+
             // tap the appropriate button
             onView(withId(resourceId)).perform(click());
 
             // and verify it's prepended to the list.
             onData(instanceOf(Comment.class))
                     .inAdapterView(allOf(withId(android.R.id.list), isDisplayed()))
-                    .atPosition(0)
+                    .atPosition(i)
                     .check(matches(withText(textForButton(resourceId))));
         }
 

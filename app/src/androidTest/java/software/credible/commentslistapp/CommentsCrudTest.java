@@ -20,8 +20,10 @@ public class CommentsCrudTest extends ApplicationTestCase<Application> {
         super(Application.class);
     }
 
+    @Before
     @Override
-    public void setUp() {
+    public void setUp() throws Exception {
+        super.setUp();
         datasource = new CommentsDataSource(getContext());
         datasource.open();
         for(Comment c : datasource.getAllComments()) {
@@ -29,9 +31,11 @@ public class CommentsCrudTest extends ApplicationTestCase<Application> {
         }
     }
 
+    @After
     @Override
-    public void tearDown() {
+    public void tearDown() throws Exception {
         datasource.close();
+        super.tearDown();
     }
 
     public void testCrudSingleComment() {
