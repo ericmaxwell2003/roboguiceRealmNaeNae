@@ -56,5 +56,4 @@ public class CommentsCrudTest extends ApplicationTestCase<Application> {
         assertNotNull(comment);
         assertEquals("Comment_7", comment.getComment());
     }
-
 }
