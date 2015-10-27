@@ -25,7 +25,6 @@ public class CommentsCrudTest extends ApplicationTestCase<Application> {
     public void setUp() throws Exception {
         createApplication();
         datasource = new CommentsDataSource(getContext());
-        datasource.open();
         datasource.deleteAllComments();
         super.setUp();
     }
@@ -34,7 +33,6 @@ public class CommentsCrudTest extends ApplicationTestCase<Application> {
     @Override
     public void tearDown() throws Exception {
         datasource.deleteAllComments();
-        datasource.close();
         super.terminateApplication();
         super.tearDown();
     }

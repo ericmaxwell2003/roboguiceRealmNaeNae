@@ -30,12 +30,8 @@ public class CommentsActivity extends ListActivity {
         setContentView(R.layout.activity_comments);
 
         datasource = new CommentsDataSource(this);
-        datasource.open();
-
         List<Comment> values = datasource.getAllComments();
 
-        // Use the SimpleCursorAdapter to show the
-        // elements in a ListView
         ArrayAdapter<Comment> adapter = new ArrayAdapter<Comment>(this,
                 android.R.layout.simple_list_item_1, values);
         setListAdapter(adapter);
@@ -43,21 +39,9 @@ public class CommentsActivity extends ListActivity {
         getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                return delete(parent, view, position, id);
+                return delete(position);
             }
         });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        datasource.open();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        datasource.close();
     }
 
     public void add(View view) {
@@ -71,7 +55,7 @@ public class CommentsActivity extends ListActivity {
         }
     }
 
-    public boolean delete (AdapterView<?> parent, View view, int position, long id) {
+    public boolean delete (int position) {
         boolean deleted = false;
         if (getListAdapter().getCount() > 0) {
             ArrayAdapter<Comment> adapter = getListAdapter();

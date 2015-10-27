@@ -1,18 +1,23 @@
 package software.credible.commentslistapp;
 
-public class Comment {
-	private long id;
-	private String comment;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
 
-	public long getId() {
-		return id;
-	}
+public class Comment extends RealmObject {
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    @PrimaryKey private String id;
+    @Required   private String comment;
 
-	public String getComment() {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getComment() {
 		return comment;
 	}
 
@@ -20,9 +25,4 @@ public class Comment {
 		this.comment = comment;
 	}
 
-	// Will be used by the ArrayAdapter in the ListView
-	@Override
-	public String toString() {
-		return comment;
-	}
 }

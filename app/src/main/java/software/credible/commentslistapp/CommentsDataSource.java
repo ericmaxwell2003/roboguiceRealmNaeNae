@@ -5,89 +5,91 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.TextUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
+
+import io.realm.Realm;
 
 public class CommentsDataSource {
 
-	// Database fields
-	private SQLiteDatabase database;
-	private MySQLiteHelper dbHelper;
-	private String[] allColumns = { MySQLiteHelper.COLUMN_ID,
-			MySQLiteHelper.COLUMN_COMMENT };
+    private Context context;
 
-	public CommentsDataSource(Context context) {
-		dbHelper = new MySQLiteHelper(context);
-	}
+    public CommentsDataSource(Context context) {
+        this.context = context;
+    }
 
-	public void open() throws SQLException {
-		database = dbHelper.getWritableDatabase();
-	}
-
-	public void close() {
-		dbHelper.close();
-	}
-
-	public Comment createComment(String comment) {
-		ContentValues values = new ContentValues();
-		values.put(MySQLiteHelper.COLUMN_COMMENT, comment);
-		long insertId = database.insert(MySQLiteHelper.TABLE_COMMENTS, null,
-				values);
-		Cursor cursor = database.query(MySQLiteHelper.TABLE_COMMENTS,
-				allColumns, MySQLiteHelper.COLUMN_ID + " = " + insertId, null,
-				null, null, null);
-		cursor.moveToFirst();
-		Comment newComment = cursorToComment(cursor);
-		cursor.close();
-		return newComment;
+    public Comment createComment(String commentString) {
+        Comment comment = new Comment();
+        comment.setId(UUID.randomUUID().toString());
+        comment.setComment(commentString);
+		try(Realm r = Realm.getInstance(context)) {
+            r.beginTransaction();
+            r.copyToRealm(comment);
+            r.commitTransaction();
+            comment = detachComment(comment);
+        } catch (Throwable t) {
+            throw new RuntimeException("Cannot save comment", t);
+        }
+        return comment;
 	}
 
 	public void deleteComment(Comment comment) {
-		long id = comment.getId();
-		System.out.println("Comment deleted with id: " + id);
-		database.delete(MySQLiteHelper.TABLE_COMMENTS, MySQLiteHelper.COLUMN_ID
-                + " = " + id, null);
+        if(!TextUtils.isEmpty(comment.getId())) {
+            try(Realm r = Realm.getInstance(context)) {
+                r.beginTransaction();
+                r.where(Comment.class)
+                        .equalTo("id", comment.getId())
+                        .findFirst()
+                        .removeFromRealm();
+                r.commitTransaction();
+            }
+        }
 	}
 
     public void deleteAllComments() {
-       database.delete(MySQLiteHelper.TABLE_COMMENTS, null, null);
+        try (Realm r = Realm.getInstance(context)) {
+            r.beginTransaction();
+            r.where(Comment.class).findAll().clear();
+            r.commitTransaction();
+        }
     }
 
 	public Comment getCommentByValue(String commentText) {
-		Comment comment = null;
-		Cursor cursor = database.query(MySQLiteHelper.TABLE_COMMENTS,
-				allColumns, MySQLiteHelper.COLUMN_COMMENT + " = '" + commentText + "'" , null, null, null, null);
-		cursor.moveToFirst();
-		if (!cursor.isAfterLast()) {
-			comment = cursorToComment(cursor);
-		}
-		// Make sure to close the cursor
-		cursor.close();
-		return comment;
+        Comment result = null;
+        try (Realm r = Realm.getInstance(context)) {
+            result = detachComment(r.where(Comment.class).equalTo("comment", commentText).findFirst());
+        }
+        return result;
 	}
 
 	public List<Comment> getAllComments() {
-		List<Comment> comments = new ArrayList<Comment>();
-
-		Cursor cursor = database.query(MySQLiteHelper.TABLE_COMMENTS,
-				allColumns, null, null, null, null, null);
-		cursor.moveToFirst();
-		while (!cursor.isAfterLast()) {
-			Comment comment = cursorToComment(cursor);
-			comments.add(comment);
-			cursor.moveToNext();
-		}
-		// Make sure to close the cursor
-		cursor.close();
-		return comments;
+        List<Comment> result = new ArrayList<>();
+        try (Realm r = Realm.getInstance(context)) {
+            for(Comment c : r.where(Comment.class).findAll()) {
+                result.add(detachComment(c));
+            }
+        }
+        return result;
 	}
 
-	private Comment cursorToComment(Cursor cursor) {
-		Comment comment = new Comment();
-		comment.setId(cursor.getLong(0));
-		comment.setComment(cursor.getString(1));
-		return comment;
-	}
+    private Comment detachComment(Comment comment) {
+        if(comment == null) {
+            return null;
+        }
+
+        Comment detatchedComment = new Comment(){
+            @Override
+            public String toString() {
+                return getComment();
+            }
+        };
+        detatchedComment.setId(comment.getId());
+        detatchedComment.setComment(comment.getComment());
+        return detatchedComment;
+    }
+
 }
