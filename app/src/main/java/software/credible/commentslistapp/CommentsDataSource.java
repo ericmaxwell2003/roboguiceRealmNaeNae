@@ -7,14 +7,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.inject.Inject;
+
 import io.realm.Realm;
+import roboguice.RoboGuice;
 
 public class CommentsDataSource {
 
+    @Inject
     private Context context;
 
+    @Inject
     public CommentsDataSource(Context context) {
-        this.context = context;
+        RoboGuice.getInjector(context).injectMembers(this);
     }
 
     public Comment createComment(String commentString) {

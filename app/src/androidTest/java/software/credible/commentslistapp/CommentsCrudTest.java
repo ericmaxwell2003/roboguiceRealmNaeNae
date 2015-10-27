@@ -3,6 +3,9 @@ package software.credible.commentslistapp;
 import android.app.Application;
 import android.test.ApplicationTestCase;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
 import junit.framework.Assert;
 import junit.framework.TestResult;
 
@@ -12,8 +15,13 @@ import org.junit.Test;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import roboguice.RoboGuice;
+
 public class CommentsCrudTest extends ApplicationTestCase<Application> {
 
+    @Inject
     private CommentsDataSource datasource;
 
     public CommentsCrudTest() {
@@ -23,10 +31,11 @@ public class CommentsCrudTest extends ApplicationTestCase<Application> {
     @Before
     @Override
     public void setUp() throws Exception {
-        createApplication();
-        datasource = new CommentsDataSource(getContext());
-        datasource.deleteAllComments();
         super.setUp();
+        createApplication();
+        Guice.createInjector(RoboGuice.DEFAULT_STAGE, RoboGuice.newDefaultRoboModule(getApplication()));
+        RoboGuice.getInjector(getApplication()).injectMembers(this);
+        datasource.deleteAllComments();
     }
 
     @After
@@ -34,6 +43,7 @@ public class CommentsCrudTest extends ApplicationTestCase<Application> {
     public void tearDown() throws Exception {
         datasource.deleteAllComments();
         super.terminateApplication();
+        RoboGuice.Util.reset();
         super.tearDown();
     }
 

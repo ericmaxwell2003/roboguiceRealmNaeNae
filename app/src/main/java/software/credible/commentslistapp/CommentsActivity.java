@@ -18,20 +18,22 @@ import android.widget.TextView;
 import java.util.List;
 import java.util.Random;
 
+import javax.inject.Inject;
 import javax.sql.DataSource;
 
-public class CommentsActivity extends ListActivity {
+import roboguice.activity.RoboListActivity;
+import roboguice.inject.ContentView;
 
-    private CommentsDataSource datasource;
+@ContentView(R.layout.activity_comments)
+public class CommentsActivity extends RoboListActivity {
+
+    @Inject private CommentsDataSource datasource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_comments);
 
-        datasource = new CommentsDataSource(this);
         List<Comment> values = datasource.getAllComments();
-
         ArrayAdapter<Comment> adapter = new ArrayAdapter<Comment>(this,
                 android.R.layout.simple_list_item_1, values);
         setListAdapter(adapter);
