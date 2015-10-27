@@ -1,14 +1,9 @@
 package software.credible.commentslistapp;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
