@@ -1,42 +1,32 @@
-package software.credible.commentslistapp;
+package software.credible.naenaelistapp;
 
 import android.app.ListActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.GridView;
-import android.widget.ListAdapter;
-import android.widget.TextView;
 
 import java.util.List;
-import java.util.Random;
 
-import javax.sql.DataSource;
+public class NaeNaeActivity extends ListActivity {
 
-public class CommentsActivity extends ListActivity {
-
-    private CommentsDataSource datasource;
+    private LyricDataSource datasource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_comments);
+        setContentView(R.layout.activity_naenae);
 
-        datasource = new CommentsDataSource(this);
+        datasource = new LyricDataSource(this);
         datasource.open();
 
-        List<Comment> values = datasource.getAllComments();
+        List<Lyric> values = datasource.getAllLyrics();
 
         // Use the SimpleCursorAdapter to show the
         // elements in a ListView
-        ArrayAdapter<Comment> adapter = new ArrayAdapter<Comment>(this,
+        ArrayAdapter<Lyric> adapter = new ArrayAdapter<Lyric>(this,
                 android.R.layout.simple_list_item_1, values);
         setListAdapter(adapter);
 
@@ -61,12 +51,12 @@ public class CommentsActivity extends ListActivity {
     }
 
     public void add(View view) {
-        String commentText = ((Button) view).getText().toString();
-        if (!TextUtils.isEmpty(commentText)) {
-            ArrayAdapter<Comment> adapter = getListAdapter();
-            Comment comment = null;
-            comment = datasource.createComment(commentText);
-            adapter.add(comment);
+        String lyricText = ((Button) view).getText().toString();
+        if (!TextUtils.isEmpty(lyricText)) {
+            ArrayAdapter<Lyric> adapter = getListAdapter();
+            Lyric lyric = null;
+            lyric = datasource.createLyric(lyricText);
+            adapter.add(lyric);
             adapter.notifyDataSetChanged();
         }
     }
@@ -74,10 +64,10 @@ public class CommentsActivity extends ListActivity {
     public boolean delete (AdapterView<?> parent, View view, int position, long id) {
         boolean deleted = false;
         if (getListAdapter().getCount() > 0) {
-            ArrayAdapter<Comment> adapter = getListAdapter();
-            Comment comment = adapter.getItem(position);
-            datasource.deleteComment(comment);
-            adapter.remove(comment);
+            ArrayAdapter<Lyric> adapter = getListAdapter();
+            Lyric lyric = adapter.getItem(position);
+            datasource.deleteLyric(lyric);
+            adapter.remove(lyric);
             deleted = true;
         }
         return deleted;
@@ -85,7 +75,7 @@ public class CommentsActivity extends ListActivity {
 
     @Override
     @SuppressWarnings("unchecked")
-    public ArrayAdapter<Comment> getListAdapter() {
-        return (ArrayAdapter<Comment>) super.getListAdapter();
+    public ArrayAdapter<Lyric> getListAdapter() {
+        return (ArrayAdapter<Lyric>) super.getListAdapter();
     }
 }
