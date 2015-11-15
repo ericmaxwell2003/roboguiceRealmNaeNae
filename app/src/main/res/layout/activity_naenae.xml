@@ -5,29 +5,29 @@
               android:orientation="vertical" >
 
     <GridLayout
-        android:id="@+id/commentButtons"
+        android:id="@+id/lyricButtons"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
 
         <Button
             android:id="@+id/watch_me"
-            android:text="@string/comment_watch_me"
+            android:text="@string/lyric_watch_me"
             android:onClick="add"/>
 
         <Button
             android:id="@+id/whip"
-            android:text="@string/comment_whip"
+            android:text="@string/lyric_whip"
             android:onClick="add"/>
 
         <Button
             android:id="@+id/nea"
-            android:text="@string/comment_nea"
+            android:text="@string/lyric_nea"
             android:onClick="add"/>
 
         <Button
             android:id="@+id/bop"
-            android:text="@string/comment_bop"
+            android:text="@string/lyric_bop"
             android:onClick="add"/>
 
     </GridLayout>

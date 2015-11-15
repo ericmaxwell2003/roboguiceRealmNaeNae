@@ -1,4 +1,4 @@
-package software.credible.commentslistapp;
+package software.credible.naenaelistapp;
 
 import android.support.test.InstrumentationRegistry;
 import android.test.ActivityInstrumentationTestCase2;
@@ -20,9 +20,9 @@ import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.instanceOf;
 
-public class UiEspressoTest extends ActivityInstrumentationTestCase2<CommentsActivity> {
+public class UiEspressoTest extends ActivityInstrumentationTestCase2<NaeNaeActivity> {
 
-    private CommentsActivity commentsActivity;
+    private NaeNaeActivity naeNaeActivity;
     private int[] properNeaNeaSequence = new int[] {
       R.id.watch_me,R.id.whip,
       R.id.watch_me,R.id.nea,
@@ -32,14 +32,14 @@ public class UiEspressoTest extends ActivityInstrumentationTestCase2<CommentsAct
     };
 
     public UiEspressoTest() {
-        super(CommentsActivity.class);
+        super(NaeNaeActivity.class);
     }
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
         injectInstrumentation(InstrumentationRegistry.getInstrumentation());
-        commentsActivity = getActivity();
+        naeNaeActivity = getActivity();
         emptyList();
     }
 
@@ -55,34 +55,34 @@ public class UiEspressoTest extends ActivityInstrumentationTestCase2<CommentsAct
             onView(withId(resourceId)).perform(click());
 
             // and verify it's prepended to the list.
-            onData(instanceOf(Comment.class))
+            onData(instanceOf(Lyric.class))
                     .inAdapterView(allOf(withId(android.R.id.list), isDisplayed()))
                     .atPosition(i)
                     .check(matches(withText(textForButton(resourceId))));
         }
 
         // Make sure all are in the list.
-        Assert.assertEquals(properNeaNeaSequence.length, commentsActivity.getListAdapter().getCount());
+        Assert.assertEquals(properNeaNeaSequence.length, naeNaeActivity.getListAdapter().getCount());
 
         // Remove all of the words.
         emptyList();
 
         // Verify we are back to an empty list.
-        Assert.assertEquals(0, commentsActivity.getListAdapter().getCount());
+        Assert.assertEquals(0, naeNaeActivity.getListAdapter().getCount());
 
     }
 
     private void emptyList() {
-        while(!commentsActivity.getListAdapter().isEmpty()) {
-            onData(instanceOf(Comment.class))
+        while(!naeNaeActivity.getListAdapter().isEmpty()) {
+            onData(instanceOf(Lyric.class))
                     .inAdapterView(allOf(withId(android.R.id.list), isDisplayed()))
                     .atPosition(0)
                     .perform(longClick());
         }
     }
 
-    private String textForButton(int commentButtonId) {
-        Button button = (Button) getActivity().findViewById(commentButtonId);
+    private String textForButton(int lyricButtonId) {
+        Button button = (Button) getActivity().findViewById(lyricButtonId);
         return button.getText().toString();
     }
 }
