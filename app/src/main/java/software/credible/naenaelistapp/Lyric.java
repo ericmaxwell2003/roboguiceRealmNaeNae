@@ -1,13 +1,13 @@
-package software.credible.commentslistapp;
+package software.credible.naenaelistapp;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
-public class Comment extends RealmObject {
+public class Lyric extends RealmObject {
 
     @PrimaryKey private String id;
-    @Required   private String comment;
+    @Required   private String lyricText;
 
     public String getId() {
         return id;
@@ -17,12 +17,12 @@ public class Comment extends RealmObject {
         this.id = id;
     }
 
-    public String getComment() {
-		return comment;
+    public String getLyricText() {
+		return lyricText;
 	}
 
-	public void setComment(String comment) {
-		this.comment = comment;
+	public void setLyricText(String lyricText) {
+		this.lyricText = lyricText;
 	}
 
 }
