@@ -1,24 +1,27 @@
 package software.credible.naenaelistapp;
 
-import android.app.Application;
 import android.test.ApplicationTestCase;
 
 import org.junit.After;
 import org.junit.Before;
 
-public class LyricCrudTest extends ApplicationTestCase<Application> {
+import io.realm.Realm;
+
+public class LyricCrudTest extends ApplicationTestCase<NaeNaeApplication> {
 
     private LyricDataSource datasource;
+    private Realm realm;
 
     public LyricCrudTest() {
-        super(Application.class);
+        super(NaeNaeApplication.class);
     }
 
     @Before
     @Override
     public void setUp() throws Exception {
         createApplication();
-        datasource = new LyricDataSource(getContext());
+        realm = Realm.getDefaultInstance();
+        datasource = new LyricDataSource(realm);
         datasource.deleteAllLyrics();
         super.setUp();
     }
@@ -27,6 +30,7 @@ public class LyricCrudTest extends ApplicationTestCase<Application> {
     @Override
     public void tearDown() throws Exception {
         datasource.deleteAllLyrics();
+        realm.close();
         super.terminateApplication();
         super.tearDown();
     }
