@@ -10,12 +10,13 @@ import org.junit.Before;
 
 import javax.inject.Inject;
 
+import io.realm.Realm;
 import roboguice.RoboGuice;
 
 public class LyricCrudTest extends ApplicationTestCase<Application> {
 
-    @Inject
-    private LyricDataSource datasource;
+    @Inject private LyricDataSource datasource;
+    @Inject private Realm realm;
 
     public LyricCrudTest() {
         super(Application.class);
@@ -35,6 +36,7 @@ public class LyricCrudTest extends ApplicationTestCase<Application> {
     @Override
     public void tearDown() throws Exception {
         datasource.deleteAllLyrics();
+        realm.close();
         super.terminateApplication();
         RoboGuice.Util.reset();
         super.tearDown();
