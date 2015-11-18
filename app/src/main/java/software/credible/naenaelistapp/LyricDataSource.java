@@ -9,7 +9,7 @@ import io.realm.Realm;
 
 public class LyricDataSource {
 
-    Realm r;
+    private Realm r;
 
     public LyricDataSource(Realm realm) {
         r = realm;
@@ -21,9 +21,7 @@ public class LyricDataSource {
         lyric.setLyricText(lyricString);
 
         r.beginTransaction();
-
         r.copyToRealm(lyric);
-
         r.commitTransaction();
 
         return lyric;
