@@ -1,5 +1,6 @@
 package software.credible.naenaelistapp;
 
+import android.app.Application;
 import android.content.Context;
 import android.text.TextUtils;
 
@@ -14,12 +15,7 @@ import roboguice.RoboGuice;
 public class LyricDataSource {
 
     @Inject
-    Realm r;
-
-    @Inject
-    public LyricDataSource(Context context) {
-        RoboGuice.getInjector(context).injectMembers(this);
-    }
+    private Realm r;
 
     public Lyric createLyric(String lyricString) {
         Lyric lyric = new Lyric();
