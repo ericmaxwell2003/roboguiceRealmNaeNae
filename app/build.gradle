@@ -36,10 +36,10 @@ genymotion {
         taskLaunch = "connectedDebugAndroidTest"
     }
     devices {
-        nexus5 {
-            template "Google Nexus 5 - 4.4.4 - API 19 - 1080x1920"
+        'Google Nexus 6P' {
+            template "Google Nexus 6P - 6.0.0 - API 23 - 1440x2560"
             deleteWhenFinish false
-            stopWhenFinish false
+            stopWhenFinish true
         }
     }
 }
