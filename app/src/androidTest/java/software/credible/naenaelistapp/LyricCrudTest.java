@@ -7,6 +7,7 @@ import com.google.inject.Guice;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 
 import javax.inject.Inject;
 
@@ -42,6 +43,7 @@ public class LyricCrudTest extends ApplicationTestCase<Application> {
         super.tearDown();
     }
 
+    @Test
     public void testCrudSingleLyric() {
         assertEquals(0, datasource.getAllLyrics().size());
         Lyric persistentLyric = datasource.createLyric("Let's get it started");
@@ -50,6 +52,7 @@ public class LyricCrudTest extends ApplicationTestCase<Application> {
         assertEquals(0, datasource.getAllLyrics().size());
     }
 
+    @Test
     public void testLookupByLyricText() {
         assertEquals(0, datasource.getAllLyrics().size());
         for(int i = 0; i < 10; i++) {
