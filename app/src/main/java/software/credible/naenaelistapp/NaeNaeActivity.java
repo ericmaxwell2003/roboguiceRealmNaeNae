@@ -51,7 +51,6 @@ public class NaeNaeActivity extends ListActivity {
         if (!TextUtils.isEmpty(lyricText)) {
             ArrayAdapter<Lyric> adapter = getListAdapter();
             Lyric lyric = datasource.createLyric(lyricText);
-            lyric = addToStringMethod(lyric);
             adapter.add(lyric);
             adapter.notifyDataSetChanged();
         }
@@ -67,25 +66,6 @@ public class NaeNaeActivity extends ListActivity {
             deleted = true;
         }
         return deleted;
-    }
-
-    /**
-     * Temporary add to lyric to add a toString to a detatched version to insert into the array
-     * adapter, so that we can continue to not write a custom view/adapter for the ListView.
-     * In a real world app, we would probably use our own custom item view and adapter.
-     * @param lyric Lyric object
-     * @return lyric a subclass of lyric that has a toString() method.
-     */
-    private Lyric addToStringMethod(Lyric lyric) {
-        Lyric augmentedLyric = new Lyric(){
-            @Override
-            public String toString() {
-                return getLyricText();
-            }
-        };
-        augmentedLyric.setId(lyric.getId());
-        augmentedLyric.setLyricText(lyric.getLyricText());
-        return augmentedLyric;
     }
 
     @Override

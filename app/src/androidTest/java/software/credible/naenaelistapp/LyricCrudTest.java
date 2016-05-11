@@ -4,6 +4,7 @@ import android.test.ApplicationTestCase;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 
 import io.realm.Realm;
 
@@ -35,6 +36,7 @@ public class LyricCrudTest extends ApplicationTestCase<NaeNaeApplication> {
         super.tearDown();
     }
 
+    @Test
     public void testCrudSingleLyric() {
         assertEquals(0, datasource.getAllLyrics().size());
         Lyric persistentLyric = datasource.createLyric("Let's get it started");
@@ -43,6 +45,7 @@ public class LyricCrudTest extends ApplicationTestCase<NaeNaeApplication> {
         assertEquals(0, datasource.getAllLyrics().size());
     }
 
+    @Test
     public void testLookupByLyricText() {
         assertEquals(0, datasource.getAllLyrics().size());
         for(int i = 0; i < 10; i++) {

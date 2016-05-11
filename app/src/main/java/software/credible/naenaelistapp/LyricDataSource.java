@@ -30,19 +30,17 @@ public class LyricDataSource {
 	public void deleteLyric(Lyric lyric) {
         if(!TextUtils.isEmpty(lyric.getId())) {
             r.beginTransaction();
-
             r.where(Lyric.class)
                     .equalTo("id", lyric.getId())
-                    .findFirst()
-                    .removeFromRealm();
-
+                    .findAll()
+                    .deleteAllFromRealm();
             r.commitTransaction();
         }
 	}
 
     public void deleteAllLyrics() {
         r.beginTransaction();
-        r.where(Lyric.class).findAll().clear();
+        r.delete(Lyric.class);
         r.commitTransaction();
     }
 
