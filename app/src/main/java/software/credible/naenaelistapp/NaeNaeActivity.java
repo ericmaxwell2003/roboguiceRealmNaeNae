@@ -52,7 +52,6 @@ public class NaeNaeActivity extends ListActivity {
             ArrayAdapter<Lyric> adapter = getListAdapter();
             Lyric lyric = datasource.createLyric(lyricText);
             adapter.add(lyric);
-            adapter.notifyDataSetChanged();
         }
     }
 
