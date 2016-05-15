@@ -20,7 +20,6 @@ import roboguice.inject.ContentView;
 public class NaeNaeActivity extends RoboListActivity {
 
     @Inject private LyricDataSource datasource;
-    @Inject private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +42,7 @@ public class NaeNaeActivity extends RoboListActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        realm.close();
+        datasource.close();
     }
 
     public void add(View view) {

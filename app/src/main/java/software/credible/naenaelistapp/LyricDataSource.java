@@ -51,4 +51,7 @@ public class LyricDataSource {
         return r.where(Lyric.class).findAll();
 	}
 
+    public void close() {
+        r.close();
+    }
 }
