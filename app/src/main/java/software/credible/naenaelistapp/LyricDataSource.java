@@ -1,7 +1,5 @@
 package software.credible.naenaelistapp;
 
-import android.app.Application;
-import android.content.Context;
 import android.text.TextUtils;
 
 import java.util.List;
@@ -10,7 +8,6 @@ import java.util.UUID;
 import javax.inject.Inject;
 
 import io.realm.Realm;
-import roboguice.RoboGuice;
 
 public class LyricDataSource {
 
