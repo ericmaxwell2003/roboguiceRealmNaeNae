@@ -1,12 +1,20 @@
 package software.credible.naenaelistapp;
 
+import android.app.Activity;
+import android.app.Application;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.rule.ActivityTestRule;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.Button;
+
+import com.google.inject.Injector;
 
 import junit.framework.Assert;
 
 import org.junit.Before;
+import org.junit.Rule;
+
+import roboguice.RoboGuice;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
@@ -37,6 +45,8 @@ public class UiEspressoTest extends ActivityInstrumentationTestCase2<NaeNaeActiv
     @Before
     public void setUp() throws Exception {
         super.setUp();
+        Application application = (Application) InstrumentationRegistry.getTargetContext().getApplicationContext();
+        RoboGuice.overrideApplicationInjector(application, RoboGuice.newDefaultRoboModule(application));
         injectInstrumentation(InstrumentationRegistry.getInstrumentation());
         naeNaeActivity = getActivity();
         emptyList();

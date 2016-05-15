@@ -4,6 +4,7 @@ import android.app.Application;
 import android.test.ApplicationTestCase;
 
 import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 import org.junit.After;
 import org.junit.Before;
@@ -17,7 +18,6 @@ import roboguice.RoboGuice;
 public class LyricCrudTest extends ApplicationTestCase<Application> {
 
     @Inject private LyricDataSource datasource;
-    @Inject private Realm realm;
 
     public LyricCrudTest() {
         super(Application.class);
@@ -27,8 +27,8 @@ public class LyricCrudTest extends ApplicationTestCase<Application> {
     @Override
     public void setUp() throws Exception {
         createApplication();
-        Guice.createInjector(RoboGuice.DEFAULT_STAGE, RoboGuice.newDefaultRoboModule(getApplication()));
-        RoboGuice.getInjector(getApplication()).injectMembers(this);
+        Injector injector = RoboGuice.overrideApplicationInjector(getApplication(), RoboGuice.newDefaultRoboModule(getApplication()));
+        injector.injectMembers(this);
         datasource.deleteAllLyrics();
         super.setUp();
     }
@@ -37,7 +37,7 @@ public class LyricCrudTest extends ApplicationTestCase<Application> {
     @Override
     public void tearDown() throws Exception {
         datasource.deleteAllLyrics();
-        realm.close();
+        datasource.close();
         super.terminateApplication();
         RoboGuice.Util.reset();
         super.tearDown();
