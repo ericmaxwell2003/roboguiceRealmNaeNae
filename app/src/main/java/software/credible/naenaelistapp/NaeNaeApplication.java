@@ -10,8 +10,9 @@ public class NaeNaeApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Realm.init(this);
         RealmConfiguration realmConfiguration =
-                new RealmConfiguration.Builder(this)
+                new RealmConfiguration.Builder()
                 .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(realmConfiguration);
