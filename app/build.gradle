@@ -27,23 +27,6 @@ android {
     }
 }
 
-apply plugin: "genymotion"
-
-genymotion {
-    config {
-        genymotionPath = "/Applications/Genymotion.app/Contents/MacOS"
-        verbose = true
-        taskLaunch = "connectedDebugAndroidTest"
-    }
-    devices {
-        'Google Nexus 6' {
-            template 'Google Nexus 6 - 5.1.0 - API 22 - 1440x2560'
-            deleteWhenFinish true
-            stopWhenFinish true
-        }
-    }
-}
-
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23.3.0'
