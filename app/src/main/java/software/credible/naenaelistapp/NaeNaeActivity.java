@@ -26,14 +26,14 @@ public class NaeNaeActivity extends ListActivity {
 
         // Use the SimpleCursorAdapter to show the
         // elements in a ListView
-        ArrayAdapter<Lyric> adapter = new ArrayAdapter<Lyric>(this,
+        ArrayAdapter<Lyric> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, values);
         setListAdapter(adapter);
 
-        getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                return delete(parent, view, position, id);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                delete(position);
             }
         });
     }
@@ -60,16 +60,13 @@ public class NaeNaeActivity extends ListActivity {
         }
     }
 
-    public boolean delete (AdapterView<?> parent, View view, int position, long id) {
-        boolean deleted = false;
+    public void delete (int position) {
         if (getListAdapter().getCount() > 0) {
             ArrayAdapter<Lyric> adapter = getListAdapter();
             Lyric lyric = adapter.getItem(position);
             datasource.deleteLyric(lyric);
             adapter.remove(lyric);
-            deleted = true;
         }
-        return deleted;
     }
 
     @Override

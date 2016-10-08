@@ -77,7 +77,7 @@ public class UiEspressoTest extends ActivityInstrumentationTestCase2<NaeNaeActiv
             onData(instanceOf(Lyric.class))
                     .inAdapterView(allOf(withId(android.R.id.list), isDisplayed()))
                     .atPosition(0)
-                    .perform(longClick());
+                    .perform(click());
         }
     }
 
