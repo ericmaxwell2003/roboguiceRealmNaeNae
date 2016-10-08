@@ -28,14 +28,14 @@ public class NaeNaeActivity extends ListActivity {
 
         List<Lyric> values = new ArrayList<>(datasource.getAllLyrics());
 
-        ArrayAdapter<Lyric> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, values);
+        ArrayAdapter<Lyric> adapter =
+                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, values);
         setListAdapter(adapter);
 
-        getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                return delete(position);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                delete(position);
             }
         });
     }
@@ -55,16 +55,13 @@ public class NaeNaeActivity extends ListActivity {
         }
     }
 
-    public boolean delete (int position) {
-        boolean deleted = false;
+    public void delete (int position) {
         if (getListAdapter().getCount() > 0) {
             ArrayAdapter<Lyric> adapter = getListAdapter();
             Lyric lyric = adapter.getItem(position);
             datasource.deleteLyric(lyric);
             adapter.remove(lyric);
-            deleted = true;
         }
-        return deleted;
     }
 
     @Override
