@@ -68,10 +68,10 @@ public class LyricDataSource {
 	}
 
 	public List<Lyric> getAllLyrics() {
-		List<Lyric> lyrics = new ArrayList<Lyric>();
+		List<Lyric> lyrics = new ArrayList<>();
 
 		Cursor cursor = database.query(MySQLiteHelper.TABLE_LYRICS,
-				allColumns, null, null, null, null, null);
+				allColumns, null, null, null, null, MySQLiteHelper.COLUMN_ID);
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
 			Lyric lyric = cursorToLyric(cursor);
