@@ -18,31 +18,41 @@ public class LyricDataSource {
     }
 
     public Lyric createLyric(String lyricString) {
-        Lyric lyric = new Lyric();
+        final Lyric lyric = new Lyric();
         lyric.setId(UUID.randomUUID().toString());
         lyric.setLyricText(lyricString);
         lyric.setSortKey(System.currentTimeMillis());
 
-        r.beginTransaction();
-        r.copyToRealm(lyric);
-        r.commitTransaction();
+        r.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.copyToRealm(lyric);
+            }
+        });
 
         return lyric;
 	}
 
-	public void deleteLyric(Lyric lyric) {
-        r.beginTransaction();
-        r.where(Lyric.class)
-                .equalTo("id", lyric.getId())
-                .findAll()
-                .deleteAllFromRealm();
-        r.commitTransaction();
+	public void deleteLyric(final Lyric lyric) {
+        r.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.where(Lyric.class)
+                        .equalTo("id", lyric.getId())
+                        .findAll()
+                        .deleteAllFromRealm();
+            }
+        });
 	}
 
     public void deleteAllLyrics() {
-        r.beginTransaction();
-        r.delete(Lyric.class);
-        r.commitTransaction();
+        r.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.delete(Lyric.class);
+            }
+        });
+
     }
 
 	public Lyric getLyricByValue(String lyricText) {
