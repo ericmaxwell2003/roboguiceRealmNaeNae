@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.UUID;
 
 import io.realm.Realm;
+import io.realm.RealmObject;
+import io.realm.Sort;
 
 public class LyricDataSource {
 
@@ -19,6 +21,7 @@ public class LyricDataSource {
         Lyric lyric = new Lyric();
         lyric.setId(UUID.randomUUID().toString());
         lyric.setLyricText(lyricString);
+        lyric.setSortKey(System.currentTimeMillis());
 
         r.beginTransaction();
         r.copyToRealm(lyric);
@@ -28,14 +31,12 @@ public class LyricDataSource {
 	}
 
 	public void deleteLyric(Lyric lyric) {
-        if(!TextUtils.isEmpty(lyric.getId())) {
-            r.beginTransaction();
-            r.where(Lyric.class)
-                    .equalTo("id", lyric.getId())
-                    .findAll()
-                    .deleteAllFromRealm();
-            r.commitTransaction();
-        }
+        r.beginTransaction();
+        r.where(Lyric.class)
+                .equalTo("id", lyric.getId())
+                .findAll()
+                .deleteAllFromRealm();
+        r.commitTransaction();
 	}
 
     public void deleteAllLyrics() {
@@ -49,7 +50,6 @@ public class LyricDataSource {
 	}
 
 	public List<Lyric> getAllLyrics() {
-        return r.where(Lyric.class).findAll();
+        return r.where(Lyric.class).findAllSorted("sortKey");
 	}
-
 }

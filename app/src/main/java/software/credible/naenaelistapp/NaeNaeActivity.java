@@ -59,8 +59,8 @@ public class NaeNaeActivity extends ListActivity {
         if (getListAdapter().getCount() > 0) {
             ArrayAdapter<Lyric> adapter = getListAdapter();
             Lyric lyric = adapter.getItem(position);
-            datasource.deleteLyric(lyric);
             adapter.remove(lyric);
+            datasource.deleteLyric(lyric);
         }
     }
 
