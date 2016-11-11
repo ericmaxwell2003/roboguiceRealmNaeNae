@@ -1,13 +1,9 @@
 package software.credible.naenaelistapp;
 
-import android.text.TextUtils;
-
 import java.util.List;
 import java.util.UUID;
 
 import io.realm.Realm;
-import io.realm.RealmObject;
-import io.realm.Sort;
 
 public class LyricDataSource {
 
